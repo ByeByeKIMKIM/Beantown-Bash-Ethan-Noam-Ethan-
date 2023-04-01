@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-import math
-import random
+import tkinter as tk
+import PySimpleGUI as sg
+import tkinter as tk
+from tkinter import filedialog
 
 def calc_parabola_vertex(x1, y1, x2, y2, x3, y3):
     denom = (x1-x2) * (x1-x3) * (x2-x3);
@@ -70,8 +72,7 @@ while True:
                 x, y = 0.5 * (x + cx), 0.5 * (y + cy)
                 tracked_points_x.append(x)
                 tracked_points_y.append(y)
-                # new_point = TrackedPoint(len(tracked_points), cx, cy)
-                # tracked_points.append(new_point)
+
 
     #Draw a circle around the tracked point
     if x is not None and y is not None:
@@ -83,31 +84,20 @@ while True:
     if cv2.waitKey(1) == ord('q'):
         break
 
-# Release the video capture and destroy all windows
-# cap.release()
-# cv2.destroyAllWindows()
 
-# for point in tracked_points:
-#     print(f"({point.x}, {point.y})")
 
-for point in tracked_points_y:
-    point = -1 * point
 for a in tracked_points_y:
   tracked_points_y[tracked_points_y.index(a)]=tracked_points_y[tracked_points_y.index(a)]*-1
+the_min = min(tracked_points_y)
+for a in tracked_points_y:
+    tracked_points_y[tracked_points_y.index(a)]=tracked_points_y[tracked_points_y.index(a)] - the_min
 
-# plt.scatter(tracked_points_x, tracked_points_y)
-# plt.set_xticklabels([])
-# # plt.set_yticklabels([])
-# plt.show()
 
 fig, ax = plt.subplots()
 
 # Plot the data
 ax.scatter(tracked_points_x, tracked_points_y)
 
-# Remove the axis labels
-# ax.set_xticklabels([])
-# ax.set_yticklabels([])
 
 beginning = 0
 end = len(tracked_points_x) - 1
@@ -124,3 +114,44 @@ y_lim = plt.ylim()
 plt.text(x_lim[0] + 20, y_lim[0] + 20,text)
 #print(str(coef[0]) + str(coef[1]) + str(coef[2]))
 plt.show()
+
+
+
+
+#Ethan Kim ultimate brick
+
+
+# class VideoPlayer(tk.Frame):
+#     def __init__(self, master=None):
+#         super().__init__(master)
+#         self.master = master
+#         self.pack()
+#         self.create_widgets()
+
+#     def create_widgets(self):
+#         # Create a label to display the file name of the video
+#         self.label = tk.Label(self, text="Drag and drop an MP4 video here")
+#         self.label.pack()
+
+#         # Create a button to allow the user to select a video file
+#         self.select_button = tk.Button(self, text="Select a Video", command=self.select_file)
+#         self.select_button.pack()
+
+#         # Create a canvas to display the video
+#         self.canvas = tk.Canvas(self, width=640, height=480)
+#         self.canvas.pack()
+
+#     def select_file(self):
+#         # Open a file dialog to allow the user to select an MP4 video file
+#         file_path = filedialog.askopenfilename(filetypes=[("MP4 Video Files", "*.mp4")])
+
+#         # Update the label to display the file name of the selected video
+#         self.label.config(text=file_path)
+
+#         # TODO: Load the selected video into the canvas for playback
+
+# root = tk.Tk()
+# app = VideoPlayer(master=root)
+# app.mainloop()
+
+
